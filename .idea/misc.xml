@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/activity_music.xml" value="0.25" />
+        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/drawable/quan_ly_sinh_vien.xml" value="0.19427083333333334" />
+        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/activity_demo_so.xml" value="0.18020833333333333" />
+        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/activity_music.xml" value="0.33" />
+        <entry key="..\:/bai tap lap trinh mobile/BaithuyettrinhAsyncTask/app/src/main/res/layout/quan_ly_sinh_vien.xml" value="0.5" />
       </map>
     </option>
   </component>

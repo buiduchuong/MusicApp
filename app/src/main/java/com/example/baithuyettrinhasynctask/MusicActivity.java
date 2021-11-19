@@ -4,9 +4,12 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,9 +17,11 @@ import java.text.SimpleDateFormat;
 
 public class MusicActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
-    ImageView imageView_pause;
-    TextView textView_trai, textView_phai;
+    Animation animation;
+    ImageView imageView_pause, imageView_dv;
+    TextView textView_trai, textView_phai, textView_tenBH;
     SeekBar seekBar_music;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +30,14 @@ public class MusicActivity extends AppCompatActivity {
         anhxa();
         mediaPlayer = MediaPlayer.create(this, R.raw.tron_tim);
         mediaPlayer.start();
+
         seekBarMusic();
     }
 
     private void anhxa() {
+        animation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate);
+        imageView_dv = findViewById(R.id.imageView_dv);
+        textView_tenBH = findViewById(R.id.textView_tenBaiHat);
         imageView_pause = findViewById(R.id.imageView_pause);
         seekBar_music = findViewById(R.id.seekBar_music);
         textView_phai = findViewById(R.id.textView_phai);
@@ -39,30 +48,41 @@ public class MusicActivity extends AppCompatActivity {
         int tgBaiHat = mediaPlayer.getDuration();
         textView_phai.setText(new SimpleDateFormat("mm:ss").format(tgBaiHat));
         seekBar_music.setMax(tgBaiHat);
-        new AsyncTask<Void, Integer, Void>() {
+        new AsyncTask<Integer, Integer, String>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                textView_tenBH.setText("Trốn tìm");
+                imageView_dv.setAnimation(animation);
+                Toast.makeText(MusicActivity.this, "Start", Toast.LENGTH_SHORT).show();
+            }
 
             @Override
-            protected Void doInBackground(Void... voids) {
-                int i = 0;
-                while (i <= tgBaiHat) {
-                    i = mediaPlayer.getCurrentPosition();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    publishProgress(i);
-                }
-                return null;
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Toast.makeText(MusicActivity.this, s, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             protected void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
                 textView_trai.setText(new SimpleDateFormat("mm:ss").format(values[0]));
-                seekBar_music.setProgress(values[0] / 1000);
+                seekBar_music.setProgress(values[0]);
             }
-        }.execute();
+
+            @Override
+            protected String doInBackground(Integer... integers) {
+                int i = 0;
+               /* if((int e = 0) <= 2){
+
+                }*/
+                while (i <= tgBaiHat) {
+                    i = mediaPlayer.getCurrentPosition();
+                    publishProgress(i);
+                }
+                return "End";
+            }
+        }.execute(tgBaiHat);
     }
 
     private void stop() {
@@ -71,13 +91,14 @@ public class MusicActivity extends AppCompatActivity {
 
     private void pause() {
         if (mediaPlayer.isPlaying()) {
-            imageView_pause.setImageResource(R.drawable.ic_pause);
+            imageView_pause.setImageResource(R.drawable.icon_play);
             mediaPlayer.pause();
+           // animation.cancel();
         } else {
             mediaPlayer.start();
-            imageView_pause.setImageResource(R.drawable.icon_play);
+            imageView_pause.setImageResource(R.drawable.ic_pause);
+          //  animation.start();
         }
-
     }
 
     public void click_music(View view) {
